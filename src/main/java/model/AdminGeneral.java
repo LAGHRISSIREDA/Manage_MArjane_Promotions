@@ -17,7 +17,7 @@ public class AdminGeneral implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int idGeneral;
+    private long idGeneral;
 
 
 
@@ -39,12 +39,7 @@ public class AdminGeneral implements Serializable {
     private String password;
 
     //consutructors
-    public AdminGeneral(String fname,String lastname,String email,String pass){
-        this.firstname = fname;
-        this.lastname  = lastname;
-        this.email     = email;
-        this.password  = pass;
-    }
+
     //Add jointure
 
 
@@ -67,7 +62,7 @@ public class AdminGeneral implements Serializable {
     //getters and setters
 
 
-    public int getIdGeneral() {
+    public long getIdGeneral() {
         return idGeneral;
     }
 
@@ -105,5 +100,18 @@ public class AdminGeneral implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    //toString function
+
+    @Override
+    public String toString() {
+        return "AdminGeneral{" +
+                "idGeneral=" + idGeneral +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
