@@ -42,4 +42,19 @@ public class AdminCenter implements Serializable {
 
     //getters and setters
 
+    //toString
+    @Override
+    public String toString() {
+        return "AdminCenter{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", adminGeneral=" + adminGeneral +
+                ", promotion=" + promotion +
+                ", marketManager=" + marketManager +
+                ", center=" + center +
+                '}';
+    }
 }
