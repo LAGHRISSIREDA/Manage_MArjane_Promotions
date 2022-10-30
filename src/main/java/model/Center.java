@@ -24,4 +24,14 @@ public class Center implements Serializable {
     private AdminCenter adminCenter;
     //getters and setters
 
+    //toString function
+    @Override
+    public String toString() {
+        return "Center{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", ville='" + ville + '\'' +
+                ", adminCenter=" + adminCenter +
+                '}';
+    }
 }
