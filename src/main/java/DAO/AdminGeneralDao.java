@@ -1,83 +1,88 @@
 package DAO;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
 import model.AdminGeneral;
-import utils.JpaService;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
-public class AdminGeneralDao implements DAO<AdminGeneral> {
+import static utils.Security.checkPassword;
+import static utils.Security.hashPassword;
 
-    JpaService jpaService = JpaService.getInstance();
-    EntityManagerFactory entityManagerFactory;
-    EntityManager em;
-    EntityTransaction transaction;
-
-
-    //default constructor && open connection with database
+public class AdminGeneralDao extends AbstractHibernateDao<AdminGeneral>{
 
     public AdminGeneralDao(){
-        entityManagerFactory = jpaService.getEntityManagerFactory();
-        em = entityManagerFactory.createEntityManager();
-        transaction = em.getTransaction();
+        tableName = "admingeneral";
+        setClazz(AdminGeneral.class);
     }
 
-
-    @Override
-    public Optional<AdminGeneral> findById(long id) {
-        return Optional.empty();
+    // find all admins
+    public List getAllAdmins() {
+        return findAll();
     }
 
+    // find one admin by id
+    public AdminGeneral getAdminById(long id) {
+        return findOne(id);
+    }
 
-    /*
-    save a admin
-     */
+    // find one admin by email
+    public AdminGeneral getAdminByEmail(String email) {
+        return jpaService.runInTransaction(entityManager -> {
+            return entityManager.createQuery("select a from AdminGeneral a WHERE a.email = :email", AdminGeneral.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+        });
+    }
 
-    @Override
-    public AdminGeneral save(AdminGeneral adminGeneral) {
-        try{
-            transaction.begin();
-            if(adminGeneral == null){
-                em.persist(null);
-            }
-            em.merge(adminGeneral);
-            transaction.commit();
-            return adminGeneral;
-        }catch(Exception e){
-            transaction.rollback();
-            e.printStackTrace();
-        }finally {
-            jpaService.shutdown();
+    // find one admin by email and password
+    public AdminGeneral validateAdminLogin(String email,String password){
+//        String email = (String) login[0];
+//        String password = (String) login[1];
+        AdminGeneral admin = getAdminByEmail(email);
+        if (admin == null){
+            return null;
         }
-        return adminGeneral;
+        if (checkPassword(password, admin.getPassword())){
+           return admin;
+        }else {
+            return null;
+        }
     }
 
-    @Override
-    public List<AdminGeneral> all() {
-        return em.createQuery("SELECT c FROM AdminGeneral c", AdminGeneral.class).getResultList();
+    // create admin
+    public boolean createAdmin(AdminGeneral admin) {
+        admin.setPassword(hashPassword(admin.getPassword()));
+        return create(admin);
     }
 
-    @Override
-    public Boolean update(long id, AdminGeneral adminGeneral) {
-        return null;
+    // update admin
+    public AdminGeneral updateAdmin(AdminGeneral admin) {
+        return update(admin);
     }
 
-    @Override
-    public Boolean delete(long id) {
-        return null;
+    // delete admin
+    public void deleteAdmin(AdminGeneral admin) {
+        delete(admin);
+    }
+
+    // delete admin by id
+    public void deleteAdminById(long id) {
+        deleteById(id);
     }
 
     public static void main(String[] args) {
-        AdminGeneral ad = new AdminGeneral();
-        ad.setLastname("reda");
-        ad.setFirstname("laghrissi");
-        ad.setEmail("reda@gmail.com");
-        ad.setPassword("testtesttest");
-        AdminGeneralDao d=new AdminGeneralDao();
-        d.save(ad);
-
+//        AdminGeneral a = new AdminGeneral();
+//        a.setFirstname("reda");
+//        a.setLastname("laghrissi");
+//        a.setEmail("test@test.com");
+//        a.setPassword("test");
+        AdminGeneralDao ad = new AdminGeneralDao();
+//        ad.createAdmin(a);
+        if(ad.validateAdminLogin("test@tet.com","test")!=null){
+            System.out.println("Connected==========>");
+        }else{
+            System.out.println("inccorect email or password !!!");
+        }
+//        System.out.println("success");
     }
 }
