@@ -18,7 +18,7 @@ public class Promotion implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private StatusEnum status = StatusEnum.PENDING;
+    private String status ;
 
     private Date date;
 
@@ -29,4 +29,16 @@ public class Promotion implements Serializable {
     private SubCategory subCategory;
 
     //getters and setters
+
+    //ToString function
+    @Override
+    public String toString() {
+        return "Promotion{" +
+                "id=" + id +
+                ", status=" + status +
+                ", date=" + date +
+                ", adminCenter=" + adminCenter +
+                ", subCategory=" + subCategory +
+                '}';
+    }
 }
