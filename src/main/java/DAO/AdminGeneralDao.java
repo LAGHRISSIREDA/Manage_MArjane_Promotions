@@ -57,7 +57,7 @@ public class AdminGeneralDao implements DAO<AdminGeneral> {
 
     @Override
     public List<AdminGeneral> all() {
-        return em.createQuery("SELECT c FROM admingeneral c", AdminGeneral.class).getResultList();
+        return em.createQuery("SELECT c FROM AdminGeneral c", AdminGeneral.class).getResultList();
     }
 
     @Override
@@ -71,8 +71,13 @@ public class AdminGeneralDao implements DAO<AdminGeneral> {
     }
 
     public static void main(String[] args) {
-        AdminGeneral ad = new AdminGeneral("reda","kamal","dfsf@.com","sdfsdfsd");
+        AdminGeneral ad = new AdminGeneral();
+        ad.setLastname("reda");
+        ad.setFirstname("laghrissi");
+        ad.setEmail("reda@gmail.com");
+        ad.setPassword("testtesttest");
         AdminGeneralDao d=new AdminGeneralDao();
+        d.save(ad);
 
     }
 }
