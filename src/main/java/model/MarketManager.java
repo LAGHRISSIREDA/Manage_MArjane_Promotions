@@ -33,9 +33,17 @@ public class MarketManager implements Serializable {
 
     //getters and setters generated automotaiclly via lombouk annotation
 
-
-
-
-
-
+    //ToString function
+    @Override
+    public String toString() {
+        return "MarketManager{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", adminCenter=" + adminCenter +
+                ", subCategory=" + subCategory +
+                '}';
+    }
 }
