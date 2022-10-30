@@ -33,4 +33,18 @@ public class AdminGeneral implements Serializable {
 
     //getters and setters
 
+    //toString function
+    @Override
+    public String toString() {
+        return "AdminGeneral{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", adminCenter=" + adminCenter +
+                '}';
+    }
+
+
 }
